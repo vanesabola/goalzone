@@ -1,7 +1,9 @@
 import { supabase, Article } from '@/lib/supabase'
-import { catColor, CAT_EMOJI, timeAgo } from '@/lib/helpers'
+import { catColor, timeAgo } from '@/lib/helpers'
 import Ticker from '@/components/public/Ticker'
 import CountdownTimer from '@/components/public/CountdownTimer'
+import HeroSection from '@/components/public/HeroSection'
+import ArticleGrid from '@/components/public/ArticleGrid'
 
 export const revalidate = 0
 
@@ -44,37 +46,8 @@ export default async function HomePage() {
 
       <Ticker articles={articles} />
 
-      {/* HERO */}
-      {hero && (
-        <div style={{ display: 'grid', gridTemplateColumns: '1fr 360px', gap: 2, maxWidth: 1280, margin: '24px auto', padding: '0 24px' }}>
-          <div style={{ background: 'linear-gradient(160deg,#0f2d1a,#0A0A0A)', border: '1px solid var(--border)', borderRadius: 4, position: 'relative', overflow: 'hidden', padding: 40, minHeight: 320 }}>
-            {hero.image && <img src={hero.image} alt="" style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover', opacity: 0.2 }} />}
-            <div style={{ position: 'relative', zIndex: 1 }}>
-              <span style={{ background: 'var(--green)', color: '#000', fontSize: 10, fontWeight: 800, padding: '3px 10px', borderRadius: 2, textTransform: 'uppercase', letterSpacing: 1, display: 'inline-block', marginBottom: 16 }}>🔥 Berita Utama</span>
-              <h1 style={{ fontFamily: "'Playfair Display',serif", fontSize: 36, fontWeight: 900, lineHeight: 1.15, color: '#fff', marginBottom: 16 }}>{hero.title}</h1>
-              <p style={{ fontSize: 15, color: 'var(--muted)', lineHeight: 1.7, marginBottom: 20 }}>{hero.excerpt}</p>
-              <div style={{ display: 'flex', alignItems: 'center', gap: 12, fontSize: 12, color: 'var(--muted)' }}>
-                <div style={{ width: 28, height: 28, borderRadius: '50%', background: 'var(--green)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 800, color: '#000', fontSize: 12 }}>{hero.author[0]}</div>
-                <strong style={{ color: 'var(--text)' }}>{hero.author}</strong>
-                <span>•</span><span>{timeAgo(hero.created_at)}</span>
-                <span>•</span><span>👁 {hero.views}</span>
-              </div>
-            </div>
-          </div>
-          <div style={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
-            {sideArts.map(a => (
-              <div key={a.id} style={{ flex: 1, background: 'var(--card)', border: '1px solid var(--border)', padding: 20, position: 'relative', overflow: 'hidden' }}>
-                {a.image && <img src={a.image} alt="" style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover', opacity: 0.12 }} />}
-                <div style={{ position: 'relative', zIndex: 1 }}>
-                  <span style={{ background: catColor(a.category), color: '#000', fontSize: 9, fontWeight: 800, padding: '2px 8px', borderRadius: 2, textTransform: 'uppercase', display: 'inline-block', marginBottom: 8 }}>{a.category}</span>
-                  <div style={{ fontFamily: "'Playfair Display',serif", fontSize: 16, fontWeight: 700, color: '#fff', lineHeight: 1.3, marginBottom: 6 }}>{a.title}</div>
-                  <div style={{ fontSize: 11, color: 'var(--muted)' }}>{timeAgo(a.created_at)} • {a.views} views</div>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      )}
+      {/* HERO — clickable */}
+      {hero && <HeroSection hero={hero} sideArts={sideArts} />}
 
       {/* WORLD CUP */}
       {wcArts.length > 0 && (
@@ -105,7 +78,7 @@ export default async function HomePage() {
         </div>
       )}
 
-      {/* ARTICLE GRID */}
+      {/* ARTICLE GRID — clickable */}
       <div style={{ maxWidth: 1280, margin: '0 auto 48px', padding: '0 24px' }}>
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 20, paddingBottom: 12, borderBottom: '1px solid var(--border)' }}>
           <div style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: 28, letterSpacing: 2, color: '#fff', display: 'flex', alignItems: 'center', gap: 10 }}>
@@ -120,26 +93,7 @@ export default async function HomePage() {
             <p>Belum ada artikel. Tambahkan dari panel admin.</p>
           </div>
         ) : (
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3,1fr)', gap: 20 }}>
-            {gridArts.map(a => (
-              <div key={a.id} style={{ background: 'var(--card)', border: '1px solid var(--border)', borderRadius: 4, overflow: 'hidden' }}>
-                <div style={{ height: 180, background: 'linear-gradient(135deg,#1a2f1a,#0d1f0d)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 56, position: 'relative', overflow: 'hidden' }}>
-                  {a.image
-                    ? <img src={a.image} alt={a.title} style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover' }} />
-                    : <span>{CAT_EMOJI[a.category] || '⚽'}</span>
-                  }
-                </div>
-                <div style={{ padding: 16 }}>
-                  <span style={{ background: catColor(a.category) + '22', color: catColor(a.category), border: `1px solid ${catColor(a.category)}44`, fontSize: 10, fontWeight: 800, padding: '2px 8px', borderRadius: 3, textTransform: 'uppercase', display: 'inline-block', marginBottom: 8 }}>{a.category}</span>
-                  <div style={{ fontFamily: "'Playfair Display',serif", fontSize: 16, fontWeight: 700, color: '#fff', lineHeight: 1.35, marginBottom: 8 }}>{a.title}</div>
-                  <div style={{ fontSize: 12, color: 'var(--muted)', lineHeight: 1.6, marginBottom: 12, display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical', overflow: 'hidden' }}>{a.excerpt}</div>
-                  <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 11, color: 'var(--muted)', paddingTop: 10, borderTop: '1px solid var(--border)' }}>
-                    <span>{timeAgo(a.created_at)}</span><span>👁 {a.views}</span>
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
+          <ArticleGrid articles={gridArts} />
         )}
       </div>
 

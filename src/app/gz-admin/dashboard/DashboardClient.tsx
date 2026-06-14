@@ -225,14 +225,8 @@ export default function DashboardClient({ initialArticles }: { initialArticles: 
       const url = isNew ? '/api/articles' : `/api/articles/${editing.id}`
       const res = await fetch(url, { method: isNew ? 'POST' : 'PUT', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(editing) })
       if (!res.ok) throw new Error()
-// Revalidate landing page cache
-await fetch('/api/revalidate', {
-  method: 'POST',
-  headers: { 'Content-Type': 'application/json' },
-  body: JSON.stringify({ secret: process.env.NEXTAUTH_SECRET }),
-})
-showToast(isNew ? '🚀 Artikel dipublish!' : '✅ Artikel diperbarui!')
-setEditing(null); await refresh(); router.refresh()
+      showToast(isNew ? '🚀 Artikel dipublish!' : '✅ Artikel diperbarui!')
+      setEditing(null); await refresh(); router.refresh()
     } catch { showToast('❌ Gagal menyimpan', true) }
     finally { setLoading(false) }
   }
@@ -281,7 +275,7 @@ setEditing(null); await refresh(); router.refresh()
         </nav>
         <div style={{ padding: '16px 20px', borderTop: '1px solid #252525', display: 'flex', alignItems: 'center', gap: 10 }}>
           <div style={{ width: 34, height: 34, background: '#00C853', color: '#000', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 800, fontSize: 13, flexShrink: 0 }}>GA</div>
-          <div><div style={{ fontSize: 13, fontWeight: 600 }}>goalzone_admin</div><div style={{ fontSize: 10, color: '#888' }}>Super Admin</div></div>
+          <div><div style={{ fontSize: 13, fontWeight: 600 }}>vanesabola_admin</div><div style={{ fontSize: 10, color: '#888' }}>Super Admin</div></div>
           <button onClick={logout} style={{ marginLeft: 'auto', background: 'none', border: 'none', color: '#888', cursor: 'pointer', fontSize: 18 }} title="Logout">⏻</button>
         </div>
       </aside>

@@ -24,7 +24,7 @@ export default async function AdminLoginPage() {
       <div style={{ width: 480, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: 48, background: '#111' }}>
         <div style={{ width: '100%' }}>
           <div style={{ fontSize: 28, fontWeight: 700, color: '#fff', marginBottom: 4 }}>Masuk ke Admin</div>
-          <div style={{ fontSize: 14, color: '#888', marginBottom: 32 }}>Panel pengelolaan konten GoalZone</div>
+          <div style={{ fontSize: 14, color: '#888', marginBottom: 32 }}>Panel pengelolaan konten VanesaBola</div>
           <div style={{ background: 'rgba(0,200,83,0.08)', border: '1px solid rgba(0,200,83,0.25)', borderRadius: 6, padding: '10px 14px', marginBottom: 32, display: 'flex', alignItems: 'center', fontSize: 12, fontFamily: 'monospace', color: '#00C853' }}>
             🔐 /gz-admin/login
             <span style={{ marginLeft: 'auto', fontFamily: 'Inter', fontSize: 11, color: '#888' }}>SECRET PATH</span>

@@ -26,7 +26,7 @@ export default async function HomePage() {
       {/* NAV */}
       <nav style={{ position: 'sticky', top: 0, zIndex: 100, background: 'rgba(10,10,10,0.95)', backdropFilter: 'blur(12px)', borderBottom: '1px solid var(--border)', padding: '0 24px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', height: 60 }}>
         <div style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: 28, letterSpacing: 2, color: '#fff' }}>
-          GOAL<span style={{ color: 'var(--green)' }}>ZONE</span>
+          VANESA<span style={{ color: 'var(--green)' }}>BOLA</span>
         </div>
         <div style={{ display: 'flex', gap: 24 }}>
           {['Liga Indonesia', 'Liga Eropa', 'UCL', '🏆 Piala Dunia', 'Transfer', 'Statistik'].map(item => (
@@ -146,11 +146,11 @@ export default async function HomePage() {
       {/* FOOTER */}
       <footer style={{ background: 'var(--dark)', borderTop: '1px solid var(--border)', padding: '32px 24px', textAlign: 'center' }}>
         <div style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: 32, color: '#fff', letterSpacing: 3, marginBottom: 8 }}>
-          GOAL<span style={{ color: 'var(--green)' }}>ZONE</span>
+          VANESA<span style={{ color: 'var(--green)' }}>BOLA</span>
         </div>
         <p style={{ color: 'var(--muted)', fontSize: 13 }}>Berita bola terkini, terpercaya, dan terlengkap.</p>
         <p style={{ color: 'var(--muted)', fontSize: 12, marginTop: 12 }}>
-          © 2026 GoalZone · <a href="/gz-admin/login" style={{ color: 'var(--green)', textDecoration: 'none' }}>Admin</a>
+          © 2026 VanesaBola · <a href="/gz-admin/login" style={{ color: 'var(--green)', textDecoration: 'none' }}>Admin</a>
         </p>
       </footer>
     </div>

@@ -1,0 +1,29 @@
+@import "tailwindcss";
+
+:root {
+  --green: #00C853;
+  --green-dark: #00A040;
+  --black: #0A0A0A;
+  --dark: #111111;
+  --card: #1A1A1A;
+  --border: #252525;
+  --text: #E8E8E8;
+  --muted: #888888;
+  --gold: #FFD700;
+  --red: #FF3B30;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { background: var(--black); color: var(--text); font-family: 'Inter', sans-serif; }
+
+@keyframes ticker {
+  from { transform: translateX(100vw); }
+  to { transform: translateX(-100%); }
+}
+.ticker-scroll { animation: ticker 35s linear infinite; display: inline-block; }
+
+@keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.4; } }
+.pulse-dot { animation: pulse 1.2s infinite; }
+
+@keyframes spin { to { transform: rotate(360deg); } }
+.spin { animation: spin 0.7s linear infinite; }

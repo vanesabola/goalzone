@@ -225,8 +225,14 @@ export default function DashboardClient({ initialArticles }: { initialArticles: 
       const url = isNew ? '/api/articles' : `/api/articles/${editing.id}`
       const res = await fetch(url, { method: isNew ? 'POST' : 'PUT', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(editing) })
       if (!res.ok) throw new Error()
-      showToast(isNew ? '🚀 Artikel dipublish!' : '✅ Artikel diperbarui!')
-      setEditing(null); await refresh(); router.refresh()
+// Revalidate landing page cache
+await fetch('/api/revalidate', {
+  method: 'POST',
+  headers: { 'Content-Type': 'application/json' },
+  body: JSON.stringify({ secret: process.env.NEXTAUTH_SECRET }),
+})
+showToast(isNew ? '🚀 Artikel dipublish!' : '✅ Artikel diperbarui!')
+setEditing(null); await refresh(); router.refresh()
     } catch { showToast('❌ Gagal menyimpan', true) }
     finally { setLoading(false) }
   }

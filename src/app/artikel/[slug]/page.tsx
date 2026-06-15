@@ -5,7 +5,7 @@ import { getIdFromSlug, toSlug } from '@/lib/slug'
 import type { Metadata } from 'next'
 import Link from 'next/link'
 
-export const revalidate = 0
+export const revalidate = 3600 // cache 1 jam, lebih cepet
 
 async function getArticle(id: number): Promise<Article | null> {
   try {
@@ -19,7 +19,7 @@ async function getArticle(id: number): Promise<Article | null> {
 async function getRelated(category: string, id: number): Promise<Article[]> {
   try {
     const { data } = await supabase
-      .from('articles').select('*').eq('status', 'published').eq('category', category).neq('id', id).limit(3)
+      .from('articles').select('id,title,category,image,excerpt').eq('status', 'published').eq('category', category).neq('id', id).limit(3)
     return (data as Article[]) || []
   } catch { return [] }
 }
@@ -50,61 +50,63 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
   const id = getIdFromSlug(slug)
   if (!id || isNaN(id)) notFound()
 
-  const article = await getArticle(id)
+  const [article, related] = await Promise.all([
+    getArticle(id),
+    getRelated('', id).then(() => []) // fetch parallel
+  ])
+
   if (!article) notFound()
 
-  const related = await getRelated(article.category, article.id)
+  const relatedArts = await getRelated(article.category, article.id)
 
   return (
     <div style={{ background: 'var(--black)', minHeight: '100vh', color: 'var(--text)', fontFamily: "'Inter',sans-serif" }}>
 
       {/* NAV */}
-      <nav style={{ position: 'sticky', top: 0, zIndex: 100, background: 'rgba(10,10,10,0.95)', backdropFilter: 'blur(12px)', borderBottom: '1px solid var(--border)', padding: '0 24px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', height: 60 }}>
-        <Link href="/" style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: 28, letterSpacing: 2, color: '#fff', textDecoration: 'none' }}>
+      <nav style={{ position: 'sticky', top: 0, zIndex: 100, background: 'rgba(10,10,10,0.95)', backdropFilter: 'blur(12px)', borderBottom: '1px solid var(--border)', padding: '0 16px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', height: 56 }}>
+        <Link href="/" style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: 26, letterSpacing: 2, color: '#fff', textDecoration: 'none' }}>
           VANESA<span style={{ color: 'var(--green)' }}>BOLA</span>
         </Link>
-        <Link href="/" style={{ fontSize: 13, color: 'var(--green)', textDecoration: 'none', fontWeight: 600 }}>← Kembali ke Beranda</Link>
+        <Link href="/" style={{ fontSize: 13, color: 'var(--green)', textDecoration: 'none', fontWeight: 600 }}>← Beranda</Link>
       </nav>
 
-      <div style={{ maxWidth: 820, margin: '40px auto', padding: '0 24px' }}>
+      <div style={{ maxWidth: 820, margin: '32px auto', padding: '0 16px' }}>
 
         {/* Breadcrumb */}
-        <div style={{ fontSize: 12, color: 'var(--muted)', marginBottom: 24, display: 'flex', gap: 8, alignItems: 'center', flexWrap: 'wrap' }}>
+        <div style={{ fontSize: 12, color: 'var(--muted)', marginBottom: 20, display: 'flex', gap: 8, alignItems: 'center', flexWrap: 'wrap' }}>
           <Link href="/" style={{ color: 'var(--green)', textDecoration: 'none' }}>Home</Link>
           <span>›</span>
           <span style={{ color: catColor(article.category) }}>{article.category}</span>
-          <span>›</span>
-          <span style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', maxWidth: 300 }}>{article.title}</span>
         </div>
 
         {/* Category */}
-        <span style={{ background: catColor(article.category), color: '#000', fontSize: 11, fontWeight: 800, padding: '4px 12px', borderRadius: 3, textTransform: 'uppercase', letterSpacing: 1, display: 'inline-block', marginBottom: 20 }}>
+        <span style={{ background: catColor(article.category), color: '#000', fontSize: 11, fontWeight: 800, padding: '4px 12px', borderRadius: 3, textTransform: 'uppercase', letterSpacing: 1, display: 'inline-block', marginBottom: 16 }}>
           {article.category}{article.is_world_cup ? ' 🏆' : ''}
         </span>
 
         {/* Title */}
-        <h1 style={{ fontFamily: "'Playfair Display',serif", fontSize: 38, fontWeight: 900, color: '#fff', lineHeight: 1.15, marginBottom: 20 }}>
+        <h1 style={{ fontFamily: "'Playfair Display',serif", fontSize: 'clamp(24px, 4vw, 38px)', fontWeight: 900, color: '#fff', lineHeight: 1.15, marginBottom: 16 }}>
           {article.title}
         </h1>
 
         {/* Meta */}
-        <div style={{ display: 'flex', alignItems: 'center', gap: 12, fontSize: 13, color: 'var(--muted)', marginBottom: 32, paddingBottom: 24, borderBottom: '1px solid var(--border)', flexWrap: 'wrap' }}>
-          <div style={{ width: 36, height: 36, borderRadius: '50%', background: 'var(--green)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 800, color: '#000', fontSize: 14, flexShrink: 0 }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 10, fontSize: 12, color: 'var(--muted)', marginBottom: 24, paddingBottom: 20, borderBottom: '1px solid var(--border)', flexWrap: 'wrap' }}>
+          <div style={{ width: 32, height: 32, borderRadius: '50%', background: 'var(--green)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 800, color: '#000', fontSize: 13, flexShrink: 0 }}>
             {article.author[0]}
           </div>
           <div>
-            <div style={{ fontWeight: 600, color: 'var(--text)' }}>{article.author}</div>
+            <div style={{ fontWeight: 600, color: 'var(--text)', fontSize: 13 }}>{article.author}</div>
             <div style={{ fontSize: 11 }}>{timeAgo(article.created_at)} · 👁 {article.views} views</div>
           </div>
           <div style={{ marginLeft: 'auto', display: 'flex', gap: 8 }}>
             <a href={`https://wa.me/?text=${encodeURIComponent(article.title + ' https://www.vanesabola.xyz/artikel/' + toSlug(article.title, article.id))}`}
               target="_blank" rel="noopener noreferrer"
-              style={{ background: '#25d366', color: '#fff', fontSize: 11, fontWeight: 700, padding: '6px 14px', borderRadius: 4, textDecoration: 'none' }}>
+              style={{ background: '#25d366', color: '#fff', fontSize: 11, fontWeight: 700, padding: '5px 12px', borderRadius: 4, textDecoration: 'none' }}>
               📱 WA
             </a>
             <a href={`https://twitter.com/intent/tweet?text=${encodeURIComponent(article.title)}&url=${encodeURIComponent('https://www.vanesabola.xyz/artikel/' + toSlug(article.title, article.id))}`}
               target="_blank" rel="noopener noreferrer"
-              style={{ background: '#000', color: '#fff', fontSize: 11, fontWeight: 700, padding: '6px 14px', borderRadius: 4, textDecoration: 'none' }}>
+              style={{ background: '#000', color: '#fff', fontSize: 11, fontWeight: 700, padding: '5px 12px', borderRadius: 4, textDecoration: 'none' }}>
               𝕏 Share
             </a>
           </div>
@@ -113,23 +115,23 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
         {/* Hero Image */}
         {article.image && (
           <img src={article.image} alt={article.title}
-            style={{ width: '100%', maxHeight: 460, objectFit: 'cover', borderRadius: 8, marginBottom: 32, display: 'block' }} />
+            style={{ width: '100%', maxHeight: 420, objectFit: 'cover', borderRadius: 8, marginBottom: 28, display: 'block' }} />
         )}
 
         {/* Excerpt */}
-        <p style={{ fontSize: 18, color: '#bbb', lineHeight: 1.7, marginBottom: 28, fontStyle: 'italic', borderLeft: '3px solid var(--green)', paddingLeft: 20 }}>
+        <p style={{ fontSize: 17, color: '#bbb', lineHeight: 1.7, marginBottom: 24, fontStyle: 'italic', borderLeft: '3px solid var(--green)', paddingLeft: 16 }}>
           {article.excerpt}
         </p>
 
         {/* Content */}
-        <div style={{ fontSize: 17, color: '#ccc', lineHeight: 1.9 }}>
+        <div style={{ fontSize: 16, color: '#ccc', lineHeight: 1.9 }}>
           {article.content.split('\n').filter(p => p.trim()).map((p, i) => (
-            <p key={i} style={{ marginBottom: 20 }}>{p}</p>
+            <p key={i} style={{ marginBottom: 18 }}>{p}</p>
           ))}
         </div>
 
         {/* Tags */}
-        <div style={{ marginTop: 40, paddingTop: 24, borderTop: '1px solid var(--border)', display: 'flex', gap: 8, flexWrap: 'wrap', alignItems: 'center' }}>
+        <div style={{ marginTop: 36, paddingTop: 20, borderTop: '1px solid var(--border)', display: 'flex', gap: 8, flexWrap: 'wrap', alignItems: 'center' }}>
           <span style={{ fontSize: 12, color: 'var(--muted)' }}>Tags:</span>
           {[article.category, 'Sepak Bola', 'Berita Bola'].map(tag => (
             <span key={tag} style={{ background: 'var(--card)', border: '1px solid var(--border)', color: 'var(--muted)', fontSize: 11, padding: '3px 10px', borderRadius: 20 }}>{tag}</span>
@@ -137,18 +139,18 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
         </div>
       </div>
 
-      {/* RELATED - NO event handlers, pure server */}
-      {related.length > 0 && (
-        <div style={{ maxWidth: 820, margin: '40px auto 48px', padding: '0 24px' }}>
-          <div style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: 24, letterSpacing: 2, color: '#fff', marginBottom: 20, display: 'flex', alignItems: 'center', gap: 10 }}>
-            <span style={{ width: 4, height: 24, background: 'var(--green)', borderRadius: 2, display: 'inline-block' }} />
+      {/* RELATED */}
+      {relatedArts.length > 0 && (
+        <div style={{ maxWidth: 820, margin: '36px auto 48px', padding: '0 16px' }}>
+          <div style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: 22, letterSpacing: 2, color: '#fff', marginBottom: 16, display: 'flex', alignItems: 'center', gap: 10 }}>
+            <span style={{ width: 4, height: 22, background: 'var(--green)', borderRadius: 2, display: 'inline-block' }} />
             Artikel Terkait
           </div>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3,1fr)', gap: 16 }}>
-            {related.map(a => (
+          <div className="related-grid">
+            {relatedArts.map(a => (
               <Link key={a.id} href={`/artikel/${toSlug(a.title, a.id)}`} style={{ textDecoration: 'none' }}>
-                <div style={{ background: 'var(--card)', border: '1px solid var(--green)', borderRadius: 6, overflow: 'hidden' }}>
-                  <div style={{ height: 120, background: '#1a2f1a', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 40, position: 'relative', overflow: 'hidden' }}>
+                <div style={{ background: 'var(--card)', border: '1px solid var(--border)', borderRadius: 6, overflow: 'hidden' }}>
+                  <div style={{ height: 110, background: '#1a2f1a', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 36, position: 'relative', overflow: 'hidden' }}>
                     {a.image
                       ? <img src={a.image} alt={a.title} style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover' }} />
                       : <span>⚽</span>
@@ -166,7 +168,7 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
       )}
 
       {/* FOOTER */}
-      <footer style={{ background: 'var(--dark)', borderTop: '1px solid var(--border)', padding: '24px', textAlign: 'center' }}>
+      <footer style={{ background: 'var(--dark)', borderTop: '1px solid var(--border)', padding: '24px 16px', textAlign: 'center' }}>
         <Link href="/" style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: 28, color: '#fff', letterSpacing: 3, textDecoration: 'none' }}>
           VANESA<span style={{ color: 'var(--green)' }}>BOLA</span>
         </Link>

@@ -10,31 +10,18 @@ export const revalidate = 0
 async function getArticle(id: number): Promise<Article | null> {
   try {
     const { data, error } = await supabase
-      .from('articles')
-      .select('*')
-      .eq('id', id)
-      .eq('status', 'published')
-      .single()
+      .from('articles').select('*').eq('id', id).eq('status', 'published').single()
     if (error) return null
     return data as Article
-  } catch {
-    return null
-  }
+  } catch { return null }
 }
 
 async function getRelated(category: string, id: number): Promise<Article[]> {
   try {
     const { data } = await supabase
-      .from('articles')
-      .select('*')
-      .eq('status', 'published')
-      .eq('category', category)
-      .neq('id', id)
-      .limit(3)
+      .from('articles').select('*').eq('status', 'published').eq('category', category).neq('id', id).limit(3)
     return (data as Article[]) || []
-  } catch {
-    return []
-  }
+  } catch { return [] }
 }
 
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
@@ -55,15 +42,12 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
         ...(article.image ? { images: [article.image] } : {}),
       },
     }
-  } catch {
-    return { title: 'VanesaBola' }
-  }
+  } catch { return { title: 'VanesaBola' } }
 }
 
 export default async function ArticlePage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params
   const id = getIdFromSlug(slug)
-
   if (!id || isNaN(id)) notFound()
 
   const article = await getArticle(id)
@@ -82,7 +66,6 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
         <Link href="/" style={{ fontSize: 13, color: 'var(--green)', textDecoration: 'none', fontWeight: 600 }}>← Kembali ke Beranda</Link>
       </nav>
 
-      {/* ARTICLE */}
       <div style={{ maxWidth: 820, margin: '40px auto', padding: '0 24px' }}>
 
         {/* Breadcrumb */}
@@ -154,7 +137,7 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
         </div>
       </div>
 
-      {/* RELATED */}
+      {/* RELATED - NO event handlers, pure server */}
       {related.length > 0 && (
         <div style={{ maxWidth: 820, margin: '40px auto 48px', padding: '0 24px' }}>
           <div style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: 24, letterSpacing: 2, color: '#fff', marginBottom: 20, display: 'flex', alignItems: 'center', gap: 10 }}>
@@ -164,7 +147,7 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3,1fr)', gap: 16 }}>
             {related.map(a => (
               <Link key={a.id} href={`/artikel/${toSlug(a.title, a.id)}`} style={{ textDecoration: 'none' }}>
-                <div style={{ background: 'var(--card)', border: '1px solid var(--border)', borderRadius: 6, overflow: 'hidden' }}>
+                <div style={{ background: 'var(--card)', border: '1px solid var(--green)', borderRadius: 6, overflow: 'hidden' }}>
                   <div style={{ height: 120, background: '#1a2f1a', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 40, position: 'relative', overflow: 'hidden' }}>
                     {a.image
                       ? <img src={a.image} alt={a.title} style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover' }} />

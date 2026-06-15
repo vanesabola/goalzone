@@ -12,6 +12,9 @@ export const metadata: Metadata = {
   authors: [{ name: 'VanesaBola' }],
   creator: 'VanesaBola',
   publisher: 'VanesaBola',
+  verification: {
+    google: 'SZPBx9W898fvOmuwVl44sX8gwR-qiF-zWnWrIzvd3gs',
+  },
   openGraph: {
     type: 'website',
     locale: 'id_ID',

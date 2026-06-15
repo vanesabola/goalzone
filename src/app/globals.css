@@ -16,10 +16,7 @@
 * { box-sizing: border-box; margin: 0; padding: 0; }
 body { background: var(--black); color: var(--text); font-family: 'Inter', sans-serif; }
 
-@keyframes ticker {
-  from { transform: translateX(100vw); }
-  to { transform: translateX(-100%); }
-}
+@keyframes ticker { from { transform: translateX(100vw); } to { transform: translateX(-100%); } }
 .ticker-scroll { animation: ticker 35s linear infinite; display: inline-block; }
 
 @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.4; } }
@@ -27,3 +24,99 @@ body { background: var(--black); color: var(--text); font-family: 'Inter', sans-
 
 @keyframes spin { to { transform: rotate(360deg); } }
 .spin { animation: spin 0.7s linear infinite; }
+
+/* ── RESPONSIVE ── */
+
+/* Hero grid */
+.hero-grid {
+  display: grid;
+  grid-template-columns: 1fr 360px;
+  gap: 2px;
+  max-width: 1280px;
+  margin: 24px auto;
+  padding: 0 24px;
+}
+
+/* Article grid */
+.article-grid-3 {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+}
+
+/* WC grid */
+.wc-grid-4 {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+}
+
+/* Nav links */
+.nav-links {
+  display: flex;
+  gap: 24px;
+}
+
+/* Related grid */
+.related-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+}
+
+/* Stats grid */
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+  margin-bottom: 28px;
+}
+
+/* Dashboard sidebar */
+.dash-layout {
+  display: flex;
+  min-height: 100vh;
+}
+.dash-sidebar {
+  width: 240px;
+  background: #111;
+  border-right: 1px solid #252525;
+  display: flex;
+  flex-direction: column;
+  position: fixed;
+  top: 0; left: 0;
+  height: 100vh;
+  z-index: 50;
+  overflow-y: auto;
+}
+.dash-main {
+  margin-left: 240px;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+@media (max-width: 1024px) {
+  .wc-grid-4 { grid-template-columns: repeat(2, 1fr); }
+  .stats-grid { grid-template-columns: repeat(2, 1fr); }
+}
+
+@media (max-width: 768px) {
+  .hero-grid {
+    grid-template-columns: 1fr;
+    padding: 0 16px;
+    margin: 16px auto;
+  }
+  .article-grid-3 { grid-template-columns: 1fr; }
+  .wc-grid-4 { grid-template-columns: 1fr; }
+  .related-grid { grid-template-columns: 1fr; }
+  .nav-links { display: none; }
+  .stats-grid { grid-template-columns: 1fr 1fr; }
+  .dash-sidebar { display: none; }
+  .dash-main { margin-left: 0; }
+}
+
+@media (max-width: 480px) {
+  .stats-grid { grid-template-columns: 1fr; }
+}

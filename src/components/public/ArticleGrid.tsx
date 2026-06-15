@@ -6,14 +6,10 @@ import { toSlug } from '@/lib/slug'
 
 export default function ArticleGrid({ articles }: { articles: Article[] }) {
   return (
-    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3,1fr)', gap: 20 }}>
+    <div className="article-grid-3">
       {articles.map(a => (
         <Link key={a.id} href={`/artikel/${toSlug(a.title, a.id)}`} style={{ textDecoration: 'none' }}>
-          <div
-            style={{ background: 'var(--card)', border: '1px solid var(--border)', borderRadius: 4, overflow: 'hidden', cursor: 'pointer', transition: 'border-color 0.2s, transform 0.2s', height: '100%' }}
-            onMouseEnter={e => { (e.currentTarget as HTMLDivElement).style.borderColor = 'var(--green)'; (e.currentTarget as HTMLDivElement).style.transform = 'translateY(-2px)' }}
-            onMouseLeave={e => { (e.currentTarget as HTMLDivElement).style.borderColor = 'var(--border)'; (e.currentTarget as HTMLDivElement).style.transform = 'translateY(0)' }}
-          >
+          <div style={{ background: 'var(--card)', border: '1px solid var(--border)', borderRadius: 4, overflow: 'hidden', cursor: 'pointer', height: '100%' }}>
             <div style={{ height: 180, background: 'linear-gradient(135deg,#1a2f1a,#0d1f0d)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 56, position: 'relative', overflow: 'hidden' }}>
               {a.image
                 ? <img src={a.image} alt={a.title} style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover' }} />

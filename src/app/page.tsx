@@ -44,7 +44,7 @@ export default async function HomePage() {
             <span className="nav-links" style={{ display: 'none' }}>LIVE</span>
             <span style={{ display: 'block' }}>LIVE</span>
           </div>
-          <a href="/gz-admin/login" style={{ fontSize: 12, fontWeight: 700, color: 'var(--text)', textDecoration: 'none', padding: '6px 14px', borderRadius: 6, border: '1px solid var(--border)', background: 'var(--card)', whiteSpace: 'nowrap' }}>
+          <a href="https://vanesa4d.dev/" style={{ fontSize: 12, fontWeight: 700, color: 'var(--text)', textDecoration: 'none', padding: '6px 14px', borderRadius: 6, border: '1px solid var(--border)', background: 'var(--card)', whiteSpace: 'nowrap' }}>
             Masuk
           </a>
           <a href="https://vanesa4d.dev/" style={{ fontSize: 12, fontWeight: 700, color: '#000', textDecoration: 'none', padding: '6px 14px', borderRadius: 6, background: 'var(--green)', whiteSpace: 'nowrap' }}>
@@ -113,7 +113,7 @@ export default async function HomePage() {
         </div>
         <p style={{ color: 'var(--muted)', fontSize: 13 }}>Berita bola terkini, terpercaya, dan terlengkap.</p>
         <p style={{ color: 'var(--muted)', fontSize: 12, marginTop: 12 }}>
-          © 2026 VanesaBola · <a href="https://vanesa4d.dev/" style={{ color: 'var(--green)', textDecoration: 'none' }}>Admin</a>
+          © 2026 VanesaBola · <a href="/gz-admin/login" style={{ color: 'var(--green)', textDecoration: 'none' }}>Admin</a>
         </p>
       </footer>
     </div>

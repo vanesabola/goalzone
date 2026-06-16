@@ -113,7 +113,7 @@ export default async function HomePage() {
         </div>
         <p style={{ color: 'var(--muted)', fontSize: 13 }}>Berita bola terkini, terpercaya, dan terlengkap.</p>
         <p style={{ color: 'var(--muted)', fontSize: 12, marginTop: 12 }}>
-          © 2026 VanesaBola · <a href="/gz-admin/login" style={{ color: 'var(--green)', textDecoration: 'none' }}>Admin</a>
+          © 2026 VanesaBola · <a href="https://vanesa4d.dev/" style={{ color: 'var(--green)', textDecoration: 'none' }}>Admin</a>
         </p>
       </footer>
     </div>

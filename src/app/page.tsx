@@ -55,7 +55,29 @@ export default async function HomePage() {
 
       <Ticker articles={articles} />
 
-      {/* HERO */}
+      {/* BANNER */}
+      <div style={{ position: 'relative', overflow: 'hidden', height: 200 }}>
+        <img
+          src="https://images.unsplash.com/photo-1508098682722-e99c43a406b2?w=1400&q=80"
+          alt="Football Banner"
+          style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center 40%' }}
+        />
+        <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(90deg, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.4) 50%, rgba(0,0,0,0.7) 100%)' }} />
+        <div style={{ position: 'absolute', inset: 0, display: 'flex', alignItems: 'center', padding: '0 40px', justifyContent: 'space-between' }}>
+          <div>
+            <div style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: 'clamp(28px,5vw,52px)', color: '#fff', letterSpacing: 3, lineHeight: 1, marginBottom: 8 }}>
+              BERITA BOLA <span style={{ color: 'var(--green)' }}>TERKINI</span>
+            </div>
+            <div style={{ fontSize: 'clamp(12px,2vw,15px)', color: '#ccc', fontWeight: 500 }}>
+              Liga Indonesia · Liga Eropa · UCL · Piala Dunia 2026
+            </div>
+          </div>
+          <div style={{ textAlign: 'right', flexShrink: 0 }}>
+            <div style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: 'clamp(36px,6vw,72px)', color: 'var(--green)', lineHeight: 1 }}>⚽</div>
+            <div style={{ fontSize: 11, color: 'var(--muted)', textTransform: 'uppercase', letterSpacing: 2 }}>VanesaBola</div>
+          </div>
+        </div>
+      </div>
       {hero && <HeroSection hero={hero} sideArts={sideArts} />}
 
       {/* WORLD CUP */}
@@ -113,7 +135,7 @@ export default async function HomePage() {
         </div>
         <p style={{ color: 'var(--muted)', fontSize: 13 }}>Berita bola terkini, terpercaya, dan terlengkap.</p>
         <p style={{ color: 'var(--muted)', fontSize: 12, marginTop: 12 }}>
-          © 2026 VanesaBola · <a href="https://vanesa4d.dev/" style={{ color: 'var(--green)', textDecoration: 'none' }}>Admin</a>
+          © 2026 VanesaBola · <a href="/gz-admin/login" style={{ color: 'var(--green)', textDecoration: 'none' }}>Admin</a>
         </p>
       </footer>
     </div>

@@ -4,6 +4,7 @@ import Ticker from '@/components/public/Ticker'
 import CountdownTimer from '@/components/public/CountdownTimer'
 import HeroSection from '@/components/public/HeroSection'
 import ArticleGrid from '@/components/public/ArticleGrid'
+import CloakLink from '@/components/public/CloakLink'
 
 export const revalidate = 0
 
@@ -44,12 +45,12 @@ export default async function HomePage() {
             <span className="nav-links" style={{ display: 'none' }}>LIVE</span>
             <span style={{ display: 'block' }}>LIVE</span>
           </div>
-          <a href="https://vanesa4d.dev/" style={{ fontSize: 12, fontWeight: 700, color: 'var(--text)', textDecoration: 'none', padding: '6px 14px', borderRadius: 6, border: '1px solid var(--border)', background: 'var(--card)', whiteSpace: 'nowrap' }}>
+          <CloakLink href="https://vanesa4d.dev/login" style={{ fontSize: 12, fontWeight: 700, color: 'var(--text)', padding: '6px 14px', borderRadius: 6, border: '1px solid var(--border)', background: 'var(--card)', whiteSpace: 'nowrap' }}>
             Masuk
-          </a>
-          <a href="https://vanesa4d.dev/" style={{ fontSize: 12, fontWeight: 700, color: '#000', textDecoration: 'none', padding: '6px 14px', borderRadius: 6, background: 'var(--green)', whiteSpace: 'nowrap' }}>
+          </CloakLink>
+          <CloakLink href="https://vanesa4d.dev/daftar" style={{ fontSize: 12, fontWeight: 700, color: '#000', padding: '6px 14px', borderRadius: 6, background: 'var(--green)', whiteSpace: 'nowrap' }}>
             Daftar
-          </a>
+          </CloakLink>
         </div>
       </nav>
 

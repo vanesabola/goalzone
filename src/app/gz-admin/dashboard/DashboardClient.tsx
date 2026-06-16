@@ -1,4 +1,5 @@
 'use client'
+import RichEditor from '@/components/admin/RichEditor'
 import { useState, useCallback } from 'react'
 import { useRouter } from 'next/navigation'
 import { Article } from '@/lib/supabase'
@@ -165,9 +166,8 @@ function EditorForm({ article, onChange, onSave, onCancel, onDrop, onImgUpload, 
         {article.image && <button style={{ ...C.btn('ghost', true), marginTop: 8 }} onClick={() => onChange({ image: '' })}>✕ Hapus</button>}
       </div>
       <div style={C.fld}>
-        <label style={C.lbl}>Konten *</label>
-        <textarea value={article.content || ''} onChange={e => onChange({ content: e.target.value })}
-          placeholder="Tulis isi artikel..." style={{ ...C.inp, minHeight: 200, resize: 'vertical', lineHeight: 1.7 } as React.CSSProperties} />
+        <label style={C.lbl}>Konten Artikel *</label>
+        <RichEditor value={article.content || ''} onChange={v => onChange({ content: v })} />
       </div>
       <div style={{ display: 'flex', justifyContent: 'flex-end', gap: 10, paddingTop: 16, borderTop: '1px solid #252525', flexWrap: 'wrap' }}>
         <button style={C.btn('ghost')} onClick={onCancel}>Batal</button>

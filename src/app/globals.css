@@ -120,3 +120,17 @@ body { background: var(--black); color: var(--text); font-family: 'Inter', sans-
 @media (max-width: 480px) {
   .stats-grid { grid-template-columns: 1fr; }
 }
+
+/* ── ARTICLE CONTENT (Rich Text) ── */
+.article-content h1 { font-family: 'Playfair Display', serif; font-size: 28px; font-weight: 900; color: #fff; margin: 24px 0 14px; line-height: 1.2; }
+.article-content h2 { font-family: 'Playfair Display', serif; font-size: 22px; font-weight: 700; color: #fff; margin: 20px 0 12px; }
+.article-content h3 { font-size: 18px; font-weight: 700; color: #E8E8E8; margin: 18px 0 10px; }
+.article-content p { margin-bottom: 16px; }
+.article-content ul, .article-content ol { padding-left: 24px; margin-bottom: 16px; }
+.article-content li { margin-bottom: 8px; }
+.article-content blockquote { border-left: 3px solid var(--green); margin: 20px 0; padding: 12px 20px; background: rgba(0,200,83,0.06); border-radius: 0 8px 8px 0; font-style: italic; color: #bbb; }
+.article-content code { background: #252525; padding: 2px 8px; border-radius: 4px; font-family: monospace; font-size: 13px; color: var(--green); }
+.article-content a { color: #2196F3 !important; text-decoration: underline !important; font-weight: 600; }
+.article-content a:hover { color: #64B5F6 !important; }
+.article-content strong { color: #fff; font-weight: 800; }
+.article-content em { color: #ccc; }

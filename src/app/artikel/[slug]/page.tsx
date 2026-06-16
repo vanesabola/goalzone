@@ -124,11 +124,11 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
         </p>
 
         {/* Content */}
-        <div style={{ fontSize: 16, color: '#ccc', lineHeight: 1.9 }}>
-          {article.content.split('\n').filter(p => p.trim()).map((p, i) => (
-            <p key={i} style={{ marginBottom: 18 }}>{p}</p>
-          ))}
-        </div>
+        <div
+          style={{ fontSize: 16, color: '#ccc', lineHeight: 1.9 }}
+          dangerouslySetInnerHTML={{ __html: article.content }}
+          className="article-content"
+        />
 
         {/* Tags */}
         <div style={{ marginTop: 36, paddingTop: 20, borderTop: '1px solid var(--border)', display: 'flex', gap: 8, flexWrap: 'wrap', alignItems: 'center' }}>

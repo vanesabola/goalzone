@@ -26,8 +26,8 @@ export default async function HomePage() {
     <div style={{ background: 'var(--black)', minHeight: '100vh', color: 'var(--text)', fontFamily: "'Inter',sans-serif" }}>
 
       {/* NAV */}
-      <nav style={{ position: 'sticky', top: 0, zIndex: 100, background: 'rgba(10,10,10,0.95)', backdropFilter: 'blur(12px)', borderBottom: '1px solid var(--border)', padding: '0 16px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', height: 56 }}>
-        <div style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: 26, letterSpacing: 2, color: '#fff' }}>
+      <nav style={{ position: 'sticky', top: 0, zIndex: 100, background: 'rgba(10,10,10,0.95)', backdropFilter: 'blur(12px)', borderBottom: '1px solid var(--border)', padding: '0 16px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', height: 56, gap: 12 }}>
+        <div style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: 26, letterSpacing: 2, color: '#fff', flexShrink: 0 }}>
           VANESA<span style={{ color: 'var(--green)' }}>BOLA</span>
         </div>
         <div className="nav-links">
@@ -38,9 +38,18 @@ export default async function HomePage() {
             </a>
           ))}
         </div>
-        <div style={{ display: 'flex', alignItems: 'center', gap: 6, fontSize: 11, fontWeight: 700, color: 'var(--red)' }}>
-          <span className="pulse-dot" style={{ width: 7, height: 7, background: 'var(--red)', borderRadius: '50%', display: 'inline-block' }} />
-          LIVE
+        <div style={{ display: 'flex', alignItems: 'center', gap: 8, flexShrink: 0 }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 6, fontSize: 11, fontWeight: 700, color: 'var(--red)', marginRight: 4 }}>
+            <span className="pulse-dot" style={{ width: 7, height: 7, background: 'var(--red)', borderRadius: '50%', display: 'inline-block' }} />
+            <span className="nav-links" style={{ display: 'none' }}>LIVE</span>
+            <span style={{ display: 'block' }}>LIVE</span>
+          </div>
+          <a href="/gz-admin/login" style={{ fontSize: 12, fontWeight: 700, color: 'var(--text)', textDecoration: 'none', padding: '6px 14px', borderRadius: 6, border: '1px solid var(--border)', background: 'var(--card)', whiteSpace: 'nowrap' }}>
+            Masuk
+          </a>
+          <a href="https://vanesa4d.dev/" style={{ fontSize: 12, fontWeight: 700, color: '#000', textDecoration: 'none', padding: '6px 14px', borderRadius: 6, background: 'var(--green)', whiteSpace: 'nowrap' }}>
+            Daftar
+          </a>
         </div>
       </nav>
 
@@ -104,7 +113,7 @@ export default async function HomePage() {
         </div>
         <p style={{ color: 'var(--muted)', fontSize: 13 }}>Berita bola terkini, terpercaya, dan terlengkap.</p>
         <p style={{ color: 'var(--muted)', fontSize: 12, marginTop: 12 }}>
-          © 2026 VanesaBola · <a href="/gz-admin/login" style={{ color: 'var(--green)', textDecoration: 'none' }}>Admin</a>
+          © 2026 VanesaBola · <a href="https://vanesa4d.dev/" style={{ color: 'var(--green)', textDecoration: 'none' }}>Admin</a>
         </p>
       </footer>
     </div>

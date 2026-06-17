@@ -134,3 +134,79 @@ body { background: var(--black); color: var(--text); font-family: 'Inter', sans-
 .article-content a:hover { color: #64B5F6 !important; }
 .article-content strong { color: #fff; font-weight: 800; }
 .article-content em { color: #ccc; }
+/* ── ARTICLE TABLE (Rich Text) ── */
+.article-content table {
+  border-collapse: collapse;
+  width: 100%;
+  margin: 20px 0;
+  font-size: 14px;
+  overflow: hidden;
+  border-radius: 8px;
+}
+.article-content table td,
+.article-content table th {
+  border: 1px solid #252525;
+  padding: 10px 14px;
+  text-align: left;
+  vertical-align: top;
+  color: #E8E8E8;
+}
+.article-content table th {
+  background: #1A1A1A;
+  color: var(--green);
+  font-weight: 700;
+  font-size: 13px;
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+}
+.article-content table tr:hover {
+  background: rgba(0,200,83,0.04);
+}
+.article-content { overflow-x: auto; }
+
+@media (max-width: 600px) {
+  .article-content table { font-size: 12px; }
+  .article-content table td,
+  .article-content table th { padding: 8px 8px; }
+}
+
+/* ── EDITOR TABLE (Admin RichEditor) ── */
+.ProseMirror table {
+  border-collapse: collapse;
+  width: 100%;
+  margin: 16px 0;
+  overflow: hidden;
+  table-layout: fixed;
+}
+.ProseMirror table td,
+.ProseMirror table th {
+  min-width: 1em;
+  border: 1px solid #252525;
+  padding: 8px 12px;
+  vertical-align: top;
+  position: relative;
+  color: #E8E8E8;
+}
+.ProseMirror table th {
+  font-weight: 700;
+  text-align: left;
+  background: #1A1A1A;
+  color: var(--green);
+}
+.ProseMirror table .selectedCell:after {
+  z-index: 2;
+  position: absolute;
+  content: "";
+  left: 0; right: 0; top: 0; bottom: 0;
+  background: rgba(0,200,83,0.12);
+  pointer-events: none;
+}
+.ProseMirror table .column-resize-handle {
+  position: absolute;
+  right: -2px; top: 0; bottom: -2px;
+  width: 4px;
+  background-color: var(--green);
+  pointer-events: none;
+}
+.ProseMirror .tableWrapper { overflow-x: auto; }
+.ProseMirror.resize-cursor { cursor: col-resize; }

@@ -6,7 +6,7 @@ import HeroSection from '@/components/public/HeroSection'
 import ArticleGrid from '@/components/public/ArticleGrid'
 import CloakLink from '@/components/public/CloakLink'
 
-export const revalidate = 0
+export const revalidate = 60
 
 async function getArticles(): Promise<Article[]> {
   const { data } = await supabase

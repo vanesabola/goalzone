@@ -1,5 +1,6 @@
 'use client'
 import RichEditor from '@/components/admin/RichEditor'
+import { uploadImageToStorage } from '@/lib/uploadImage'
 import { useState, useCallback } from 'react'
 import { useRouter } from 'next/navigation'
 import { Article } from '@/lib/supabase'
@@ -196,22 +197,32 @@ export default function DashboardClient({ initialArticles }: { initialArticles: 
   const showToast = (msg: string, err = false) => { setToast(msg); setToastErr(err); setTimeout(() => setToast(''), 3000) }
   const refresh = async () => { const r = await fetch('/api/articles?admin=1'); const d = await r.json(); setArticles(d.articles || []) }
 
-  const handleImgUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleImgUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0]; if (!file) return
     if (file.size > 5 * 1024 * 1024) { showToast('⚠️ Max 5MB!', true); return }
-    const reader = new FileReader()
-    reader.onload = ev => setEditing(p => ({ ...p, image: ev.target?.result as string }))
-    reader.readAsDataURL(file)
+    showToast('⏳ Mengupload gambar...')
+    const url = await uploadImageToStorage(file)
+    if (url) {
+      setEditing(p => ({ ...p, image: url }))
+      showToast('✅ Gambar diupload!')
+    } else {
+      showToast('❌ Upload gagal, coba lagi', true)
+    }
   }
 
-  const handleDrop = useCallback((e: React.DragEvent) => {
+  const handleDrop = useCallback(async (e: React.DragEvent) => {
     e.preventDefault()
     const file = e.dataTransfer.files[0]
     if (!file || !file.type.startsWith('image/')) return
     if (file.size > 5 * 1024 * 1024) { showToast('⚠️ Max 5MB!', true); return }
-    const reader = new FileReader()
-    reader.onload = ev => setEditing(p => ({ ...p, image: ev.target?.result as string }))
-    reader.readAsDataURL(file)
+    showToast('⏳ Mengupload gambar...')
+    const url = await uploadImageToStorage(file)
+    if (url) {
+      setEditing(p => ({ ...p, image: url }))
+      showToast('✅ Gambar diupload!')
+    } else {
+      showToast('❌ Upload gagal, coba lagi', true)
+    }
   }, [])
 
   const saveArticle = async () => {
